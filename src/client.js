@@ -50,7 +50,7 @@ export default class Client {
         console.log("Loading complete.");
 
         this.scene_container = new PIXI.Container();
-        this.scene_container.x = 100;
+        this.scene_container.x = 300;
         this.scene_container.y = 100;
         this.app.stage.addChild(this.scene_container);
 
@@ -90,6 +90,8 @@ export default class Client {
     }
 
     Update() {
+        this.active_scene.Update();
+
         window.requestAnimationFrame(() => {
             this.Update();
         });

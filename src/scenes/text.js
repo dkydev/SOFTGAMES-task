@@ -9,6 +9,11 @@ let TEXT_OPTIONS = "some random text :) :( :D".split(" ");
 export default class TextScene extends Scene {
 
     Setup() {
+        this.childContainer = new PIXI.Container();
+        this.childContainer.x = -220;
+        this.childContainer.y = 100;
+
+        this.container.addChild(this.childContainer);
         this.children = [];
 
         this.AddBackButton();
@@ -17,7 +22,7 @@ export default class TextScene extends Scene {
     NextText() {
         // Clear previous text/images.
         this.children.forEach((child) => {
-            this.container.removeChild(child);
+            this.childContainer.removeChild(child);
         });
 
         // Clone the options array.
@@ -55,7 +60,7 @@ export default class TextScene extends Scene {
         image.anchor.set(0, 0.5);
 
         this.children.push(image);
-        this.container.addChild(image);
+        this.childContainer.addChild(image);
 
         return image.width;
     }
@@ -71,7 +76,7 @@ export default class TextScene extends Scene {
         textSprite.anchor.set(0, 0.5);
 
         this.children.push(textSprite);
-        this.container.addChild(textSprite);
+        this.childContainer.addChild(textSprite);
 
         return textSprite.width;
     }
@@ -81,6 +86,9 @@ export default class TextScene extends Scene {
         this.text_change_interval = setInterval(() => {
             this.NextText()
         }, CONFIG.TEXT_CHANGE_DELAY);
+
+        // Trigger immediately when scene is loaded.
+        this.NextText();
     }
 
     Disable() {

@@ -27,6 +27,10 @@ export default class Scene {
         // To be overridden.
     }
 
+    Update() {
+        // To be overridden.
+    }
+
     Show() {
         this.Enable();
         this.container.visible = true;
@@ -37,14 +41,9 @@ export default class Scene {
         this.Disable();
     }
 
-    Update() {
-
-    }
-
     AddBackButton() {
         let button_back = new MenuButton(
-            this.container.width * 0.5,
-            20, 200, 40, "Back to Menu", () => {
+            0, 0, 250, 40, "Back to Menu", () => {
                 this.client.LoadScene(SCENES.MENU)
             }
         );

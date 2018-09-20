@@ -7,6 +7,11 @@ import SCENES from "../client";
 export default class CardScene extends Scene {
 
     Setup() {
+        this.card_container = new PIXI.Container();
+        this.card_container.scale.set(0.5);
+        this.card_container.x = -200;
+        this.card_container.y = 100;
+        this.container.addChild(this.card_container);
         let card_texture = PIXI.utils.TextureCache[CONFIG.RESOURCE_PATH_CARD];
 
         this.cards_left = [];
@@ -21,7 +26,7 @@ export default class CardScene extends Scene {
             card.anchor.set(0.5);
             card.rotation = (Math.random() * (CONFIG.CARD_ROTATION_MAX_OFFSET) -
                 (CONFIG.CARD_ROTATION_MAX_OFFSET * 0.5));
-            this.container.addChild(card);
+            this.card_container.addChild(card);
         }
 
         this.card_swap_direction = "right";
@@ -52,7 +57,7 @@ export default class CardScene extends Scene {
         }
 
         // Add next card to the top of the draw-order.
-        this.container.addChild(card);
+        this.card_container.addChild(card);
 
         let tween = PIXI.tweenManager.createTween(card);
         tween.easing = PIXI.tween.Easing.inOutQuad();
