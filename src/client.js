@@ -3,8 +3,10 @@ import * as tweenManager from "pixi-tween";
 import CONFIG from "./config.js";
 import MenuScene from "./scenes/menu";
 import CardScene from "./scenes/card";
+import TextScene from "./scenes/text";
+import FireScene from "./scenes/fire";
 
-let SCENES = {};
+export let SCENES = {};
 
 export default class Client {
 
@@ -34,6 +36,10 @@ export default class Client {
 
         PIXI.loader
             .add(CONFIG.RESOURCE_PATH_CARD)
+            .add(CONFIG.RESOURCE_PATH_HAPPY)
+            .add(CONFIG.RESOURCE_PATH_HAPPY_2)
+            .add(CONFIG.RESOURCE_PATH_SAD)
+            .add(CONFIG.RESOURCE_PATH_FIRE)
             .load(() => { // Lambda function for 'this' binding.
                 this.Setup()
             });
@@ -44,6 +50,8 @@ export default class Client {
         console.log("Loading complete.");
 
         this.scene_container = new PIXI.Container();
+        this.scene_container.x = 100;
+        this.scene_container.y = 100;
         this.app.stage.addChild(this.scene_container);
 
         //
@@ -62,7 +70,10 @@ export default class Client {
         //
 
         SCENES.MENU = new MenuScene(this);
-        SCENES.CARDS = new CardScene(this);
+        SCENES.CARD = new CardScene(this);
+        SCENES.FIRE = new FireScene(this);
+        SCENES.TEXT = new TextScene(this);
+
         // Start loading initial scene - will start automatically when loaded.
         this.LoadScene(SCENES.MENU);
 
@@ -71,12 +82,16 @@ export default class Client {
     }
 
     LoadScene(scene) {
-        scene.Show();
+        if (this.active_scene != null) {
+            this.active_scene.Hide();
+        }
+        this.active_scene = scene;
+        this.active_scene.Show();
     }
 
     Update() {
         window.requestAnimationFrame(() => {
-            this.Update;
+            this.Update();
         });
 
         // Update all tweens.

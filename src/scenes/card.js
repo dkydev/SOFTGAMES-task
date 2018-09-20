@@ -1,18 +1,16 @@
 import Scene from "./scene.js";
 import card from "../assets/card-bg.png";
 import CONFIG from "../config.js";
+import MenuButton from "../button";
+import SCENES from "../client";
 
 export default class CardScene extends Scene {
 
     Setup() {
         let card_texture = PIXI.utils.TextureCache[CONFIG.RESOURCE_PATH_CARD];
 
-        this.container.x = 150;
-        this.container.y = 200;
-
         this.cards_left = [];
         this.cards_right = [];
-
 
         // Generate card sprites.
         for (let i = 0; i < CONFIG.CARD_COUNT; i++) {
@@ -27,6 +25,8 @@ export default class CardScene extends Scene {
         }
 
         this.card_swap_direction = "right";
+
+        this.AddBackButton();
     }
 
     NextCard() {
@@ -69,8 +69,8 @@ export default class CardScene extends Scene {
             });
         } else {
             tween.to({
-                x: LEFT_DECK_POSITION.x,
-                y: LEFT_DECK_POSITION.y + this.cards_left.length * CONFIG.CARD_POSITION_OFFSET.y
+                x: CONFIG.LEFT_DECK_POSITION.x,
+                y: CONFIG.LEFT_DECK_POSITION.y + this.cards_left.length * CONFIG.CARD_POSITION_OFFSET.y
             });
         }
 
@@ -79,7 +79,9 @@ export default class CardScene extends Scene {
 
     Enable() {
         // Start the card swap routine.
-        this.next_card_interval = setInterval(this.NextCard, CONFIG.CARD_SWAP_DELAY);
+        this.next_card_interval = setInterval(() => {
+            this.NextCard()
+        }, CONFIG.CARD_SWAP_DELAY);
     }
 
     Disable() {

@@ -6,13 +6,15 @@ export default class MenuButton {
 
         this.ButtonRect = new PIXI.Graphics;
         this.ButtonRect.beginFill(0xFFFF00);
-        this.ButtonRect.lineStyle(5, 0x000000);
+        this.ButtonRect.lineStyle(2, 0x000000);
         this.ButtonRect.drawRect(0, 0, width, height);
+        this.ButtonRect.pivot.x = width * 0.5;
+        this.ButtonRect.pivot.y = height * 0.5;
 
         this.ButtonText = new PIXI.Text(text, {
             fontFamily: "Arial",
-            fontSize: 24,
-            fill: "white",
+            fontSize: 16,
+            fill: "black",
             align: "center"
         });
         this.ButtonText.anchor.set(0.5, 0.5);
@@ -29,16 +31,16 @@ export default class MenuButton {
                 this.OnButtonDown();
             })
             .on('pointerup', () => {
-                this.OnButtonUp;
+                this.OnButtonUp();
             })
             .on('pointerupoutside', () => {
-                this.OnButtonUp;
+                this.OnButtonUp();
             })
             .on('pointerover', () => {
-                this.OnButtonOver;
+                this.OnButtonOver();
             })
             .on('pointerout', () => {
-                this.OnButtonOut;
+                this.OnButtonOut();
             });
 
         this.ButtonContainer.addChild(this.ButtonRect);
